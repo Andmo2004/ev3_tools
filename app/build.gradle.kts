@@ -1,3 +1,9 @@
+import java.util.Properties
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) load(f.inputStream())
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,6 +20,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = true
+        buildConfigField("String", "TAPLINX_KEY", "\"${localProps.getProperty("taplinx_key", "")}\"")
     }
 
     buildTypes {
@@ -37,6 +44,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     packagingOptions {
