@@ -39,13 +39,14 @@ class InfoFragment : Fragment() {
 
     fun onTagConnected(mgr: Ntag424Manager) {
         manager = mgr
-        readInfo()
+        if (_binding != null) readInfo()
     }
 
     private fun readInfo() {
         val mgr = manager ?: return
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
+            if (_binding == null) return@launch   // ← guardia
             val result = withContext(Dispatchers.IO) { mgr.readCardInfo() }
 
             if (result.success) {

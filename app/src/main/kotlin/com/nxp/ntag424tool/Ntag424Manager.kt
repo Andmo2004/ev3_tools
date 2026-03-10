@@ -22,6 +22,23 @@ class Ntag424Manager(
     private val tag: INTAG424DNA,
     private val keyStore: KeyStore
 ) {
+    private fun buildUriPayload(url: String): ByteArray {
+    // Prefijos estándar NDEF URI (NFC Forum URI Record Type Definition)
+    val prefixes = mapOf(
+        "https://www." to 0x04,
+        "http://www."  to 0x02,
+        "https://"     to 0x03,
+        "http://"      to 0x01
+    )
+    for ((prefix, code) in prefixes) {
+        if (url.startsWith(prefix)) {
+            val rest = url.removePrefix(prefix).toByteArray(Charsets.US_ASCII)
+            return byteArrayOf(code.toByte()) + rest
+        }
+    }
+    // Sin prefijo reconocido
+    return byteArrayOf(0x00) + url.toByteArray(Charsets.US_ASCII)
+}
 
     fun readCardInfo(): OperationResult<CardInfo> = runCatching {
         tag.isoSelectPICC()
@@ -85,16 +102,24 @@ class Ntag424Manager(
 
     fun writeNdef(content: String, type: NdefType, authKeyNum: Int): OperationResult<Unit> =
         runCatching {
-            tag.isoSelectPICC()                                    // ← añadir esta línea
+            Log.d(TAG, "writeNdef: seleccionando PICC...")
+            tag.isoSelectPICC()
+            Log.d(TAG, "writeNdef: seleccionando app...")
             tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+            Log.d(TAG, "writeNdef: autenticando con clave $authKeyNum...")
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
+            Log.d(TAG, "writeNdef: autenticación OK")
+            // tag.isoSelectPICC()                                    // ← añadir esta línea
+            // tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+            // tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
 
             val msg = when (type) {
                 NdefType.URL -> NdefMessageWrapper(
                     NdefRecordWrapper(
-                        NdefRecordWrapper.TNF_ABSOLUTE_URI,
-                        content.toByteArray(Charsets.US_ASCII),
-                        ByteArray(0), ByteArray(0)
+                        NdefRecordWrapper.TNF_WELL_KNOWN,           // ← cambiar a WELL_KNOWN
+                        "U".toByteArray(Charsets.US_ASCII),          // ← type = "U" (URI record)
+                        ByteArray(0),
+                        buildUriPayload(content)                     // ← payload con prefijo
                     )
                 )
                 NdefType.TEXT -> {
