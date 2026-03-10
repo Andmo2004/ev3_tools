@@ -20,6 +20,7 @@ import com.nxp.ntag424tool.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,6 +72,9 @@ class MainActivity : AppCompatActivity() {
         runCatching {
             nxpLib = NxpNfcLib.getInstance()
             nxpLib!!.registerActivity(this, BuildConfig.TAPLINX_KEY, packageName)
+        }.onFailure { e ->
+            Log.e("TapLinX", "Error completo: ${e.javaClass.name}: ${e.message}")
+            binding.tvNfcStatus.text = "License error: ${e.javaClass.simpleName}: ${e.message}"
         }
     }
 
@@ -112,6 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             runCatching {
+            Log.d("TapLinX", "Key: ${BuildConfig.TAPLINX_KEY.take(20)}...")
                 val ntag: INTAG424DNA? = nxpLib?.let { lib ->
                     val type = lib.getCardType(androidTag)
                     if (type == CardType.NTAG424DNATagTamper)
