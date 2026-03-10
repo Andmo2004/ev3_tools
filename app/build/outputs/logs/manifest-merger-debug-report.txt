@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-37:12
-INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-37:12
-INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-37:12
-INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-37:12
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-39:12
+INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-39:12
+INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-39:12
+INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:2:1-39:12
 MERGED from [NxpNfcAndroidLib.aar] /home/codespace/.gradle/caches/transforms-3/5156bdf58bd2b64cbbbd7918e28ab181/transformed/NxpNfcAndroidLib/AndroidManifest.xml:11:1-54:12
 MERGED from [androidx.databinding:viewbinding:8.1.0] /home/codespace/.gradle/caches/transforms-3/28f1b8dcf6608f5f7b787cbbade0109a/transformed/viewbinding-8.1.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.9.0] /home/codespace/.gradle/caches/transforms-3/7e368b8a40a9bdfd67b2aa792cd0fd5d/transformed/material-1.9.0/AndroidManifest.xml:17:1-26:12
@@ -76,9 +76,17 @@ ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:6:5-81
 		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:6:55-78
 	android:name
 		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:6:19-54
+uses-permission#android.permission.INTERNET
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:7:5-67
+	android:name
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:7:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:8:22-76
 application
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:8:5-36:19
-INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:8:5-36:19
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:10:5-38:19
+INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:10:5-38:19
 MERGED from [NxpNfcAndroidLib.aar] /home/codespace/.gradle/caches/transforms-3/5156bdf58bd2b64cbbbd7918e28ab181/transformed/NxpNfcAndroidLib/AndroidManifest.xml:19:5-52:19
 MERGED from [NxpNfcAndroidLib.aar] /home/codespace/.gradle/caches/transforms-3/5156bdf58bd2b64cbbbd7918e28ab181/transformed/NxpNfcAndroidLib/AndroidManifest.xml:19:5-52:19
 MERGED from [com.google.android.material:material:1.9.0] /home/codespace/.gradle/caches/transforms-3/7e368b8a40a9bdfd67b2aa792cd0fd5d/transformed/material-1.9.0/AndroidManifest.xml:24:5-20
@@ -104,62 +112,62 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/codespace/.gradle/cac
 	android:supportsRtl
 		ADDED from [NxpNfcAndroidLib.aar] /home/codespace/.gradle/caches/transforms-3/5156bdf58bd2b64cbbbd7918e28ab181/transformed/NxpNfcAndroidLib/AndroidManifest.xml:22:9-35
 	android:label
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:11:9-41
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:13:9-41
 	android:icon
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:10:9-43
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:12:9-43
 	android:allowBackup
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:9:9-35
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:11:9-35
 		REJECTED from [NxpNfcAndroidLib.aar] /home/codespace/.gradle/caches/transforms-3/5156bdf58bd2b64cbbbd7918e28ab181/transformed/NxpNfcAndroidLib/AndroidManifest.xml:20:9-36
 	android:theme
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:12:9-40
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:14:9-40
 	tools:replace
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:14:9-44
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:16:9-44
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:13:9-61
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:15:9-61
 activity#com.nxp.ntag424tool.MainActivity
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:16:9-34:20
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:18:9-36:20
 	android:screenOrientation
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:19:13-49
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:21:13-49
 	android:launchMode
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:20:13-43
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:22:13-43
 	android:exported
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:18:13-36
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:20:13-36
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:17:13-41
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:19:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:21:13-24:29
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:23:13-26:29
 action#android.intent.action.MAIN
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:22:17-69
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:24:17-69
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:22:25-66
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:23:17-77
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:23:27-74
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:25:27-74
 intent-filter#action:name:android.nfc.action.NDEF_DISCOVERED+action:name:android.nfc.action.TAG_DISCOVERED+action:name:android.nfc.action.TECH_DISCOVERED+category:name:android.intent.category.DEFAULT
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:25:13-30:29
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:27:13-32:29
 action#android.nfc.action.NDEF_DISCOVERED
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:26:17-77
-	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:26:25-74
-action#android.nfc.action.TAG_DISCOVERED
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:27:17-76
-	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:27:25-73
-action#android.nfc.action.TECH_DISCOVERED
 ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:28:17-77
 	android:name
 		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:28:25-74
-category#android.intent.category.DEFAULT
+action#android.nfc.action.TAG_DISCOVERED
 ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:29:17-76
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:29:27-73
-meta-data#android.nfc.action.TECH_DISCOVERED
-ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:31:13-33:59
-	android:resource
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:33:17-56
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:29:25-73
+action#android.nfc.action.TECH_DISCOVERED
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:32:17-66
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:30:25-74
+category#android.intent.category.DEFAULT
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:31:17-76
+	android:name
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:31:27-73
+meta-data#android.nfc.action.TECH_DISCOVERED
+ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:33:13-35:59
+	android:resource
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:35:17-56
+	android:name
+		ADDED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml:34:17-66
 uses-sdk
 INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspaces/ev3_tools/app/src/main/AndroidManifest.xml
