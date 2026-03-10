@@ -24,6 +24,7 @@ class Ntag424Manager(
 ) {
 
     fun readCardInfo(): OperationResult<CardInfo> = runCatching {
+        tag.isoSelectPICC()
         tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
 
         val uid        = tag.uid?.toHexString() ?: "--"
