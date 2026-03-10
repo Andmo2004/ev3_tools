@@ -84,6 +84,7 @@ class Ntag424Manager(
 
     fun writeNdef(content: String, type: NdefType, authKeyNum: Int): OperationResult<Unit> =
         runCatching {
+            tag.isoSelectPICC()                                    // ← añadir esta línea
             tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
 
@@ -128,6 +129,7 @@ class Ntag424Manager(
         }
 
     fun readNdef(authKeyNum: Int): OperationResult<String> = runCatching {
+        tag.isoSelectPICC()                                    // ← añadir esta línea
         tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
 
         val msg: INdefMessage = runCatching { tag.readNDEF() }.getOrElse {
@@ -156,6 +158,7 @@ class Ntag424Manager(
 
     fun applySdmConfig(config: SdmConfig, authKeyNum: Int): OperationResult<String> =
         runCatching {
+            tag.isoSelectPICC()                                    // ← añadir esta línea
             tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
 
