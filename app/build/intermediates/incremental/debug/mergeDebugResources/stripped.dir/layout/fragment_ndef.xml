@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- NDEF Actual -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="NDEF Actual en Tarjeta" style="@style/SectionTitle"/>
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
+                <TextView android:id="@+id/tv_current_ndef" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" style="@style/InfoText"
+                    android:text="Toca la tarjeta para leer el NDEF"
+                    android:textIsSelectable="true"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Escribir NDEF -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Escribir NDEF" style="@style/SectionTitle"/>
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Tipo de Registro" style="@style/FieldLabel"/>
+                <RadioGroup android:id="@+id/rg_ndef_type" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    <RadioButton android:id="@+id/rb_url" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="URL" android:checked="true"/>
+                    <RadioButton android:id="@+id/rb_text" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="Texto"
+                        android:layout_marginStart="16dp"/>
+                    <RadioButton android:id="@+id/rb_raw" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="Raw Hex"
+                        android:layout_marginStart="16dp"/>
+                </RadioGroup>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Contenido" style="@style/FieldLabel"/>
+                <EditText android:id="@+id/et_ndef_content" android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="https://ejemplo.com/ntag424?e=0000...&amp;c=0000..."
+                    android:inputType="textUri" android:minLines="2"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Ejemplos SDM URL" style="@style/FieldLabel"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_template_picc"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:text="Plantilla: PICCData + CMAC"
+                    android:textSize="12sp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_template_enc"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="4dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:text="Plantilla: ENC PICCData + CMAC"
+                    android:textSize="12sp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_template_full"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="4dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:text="Plantilla: ENC PICCData + ENC FileData + CMAC"
+                    android:textSize="12sp"/>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Autenticar con clave:" android:textSize="13sp"
+                        android:layout_marginEnd="8dp"/>
+                    <Spinner android:id="@+id/spinner_auth_key_ndef"
+                        android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:entries="@array/key_numbers"/>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_write_ndef"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:text="✏️ Escribir NDEF"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@color/white"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_read_ndef"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:text="📖 Leer NDEF"
+                    android:backgroundTint="#607D8B"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Status -->
+        <TextView android:id="@+id/tv_ndef_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="13sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</ScrollView>

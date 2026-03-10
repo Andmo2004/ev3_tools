@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.nxp.ntag424tool.app-mergeDebugResources-37:/layout/fragment_info.xml",
+        "source": "com.nxp.ntag424tool.app-main-40:/layout/fragment_info.xml"
+    },
+    {
+        "merged": "com.nxp.ntag424tool.app-mergeDebugResources-37:/layout/fragment_ndef.xml",
+        "source": "com.nxp.ntag424tool.app-main-40:/layout/fragment_ndef.xml"
+    },
+    {
+        "merged": "com.nxp.ntag424tool.app-mergeDebugResources-37:/layout/fragment_keys.xml",
+        "source": "com.nxp.ntag424tool.app-main-40:/layout/fragment_keys.xml"
+    },
+    {
+        "merged": "com.nxp.ntag424tool.app-mergeDebugResources-37:/layout/activity_main.xml",
+        "source": "com.nxp.ntag424tool.app-main-40:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.nxp.ntag424tool.app-mergeDebugResources-37:/layout/fragment_sdm.xml",
+        "source": "com.nxp.ntag424tool.app-main-40:/layout/fragment_sdm.xml"
+    }
+]
