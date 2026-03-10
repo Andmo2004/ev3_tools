@@ -50,6 +50,9 @@ public final class FragmentKeysBinding implements ViewBinding {
   public final MaterialButton btnSaveKeys;
 
   @NonNull
+  public final EditText etAidForChange;
+
+  @NonNull
   public final EditText etKey0;
 
   @NonNull
@@ -84,10 +87,11 @@ public final class FragmentKeysBinding implements ViewBinding {
       @NonNull MaterialButton btnGenKey1, @NonNull MaterialButton btnGenKey2,
       @NonNull MaterialButton btnGenKey3, @NonNull MaterialButton btnGenKey4,
       @NonNull MaterialButton btnGetUid, @NonNull MaterialButton btnSaveKeys,
-      @NonNull EditText etKey0, @NonNull EditText etKey1, @NonNull EditText etKey2,
-      @NonNull EditText etKey3, @NonNull EditText etKey4, @NonNull EditText etKeyVersion,
-      @NonNull EditText etNewKey, @NonNull Spinner spinnerAuthForChange,
-      @NonNull Spinner spinnerKeyToChange, @NonNull TextView tvKeysStatus) {
+      @NonNull EditText etAidForChange, @NonNull EditText etKey0, @NonNull EditText etKey1,
+      @NonNull EditText etKey2, @NonNull EditText etKey3, @NonNull EditText etKey4,
+      @NonNull EditText etKeyVersion, @NonNull EditText etNewKey,
+      @NonNull Spinner spinnerAuthForChange, @NonNull Spinner spinnerKeyToChange,
+      @NonNull TextView tvKeysStatus) {
     this.rootView = rootView;
     this.btnChangeKey = btnChangeKey;
     this.btnEnableRandomId = btnEnableRandomId;
@@ -98,6 +102,7 @@ public final class FragmentKeysBinding implements ViewBinding {
     this.btnGenKey4 = btnGenKey4;
     this.btnGetUid = btnGetUid;
     this.btnSaveKeys = btnSaveKeys;
+    this.etAidForChange = etAidForChange;
     this.etKey0 = etKey0;
     this.etKey1 = etKey1;
     this.etKey2 = etKey2;
@@ -191,6 +196,12 @@ public final class FragmentKeysBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.et_aid_for_change;
+      EditText etAidForChange = ViewBindings.findChildViewById(rootView, id);
+      if (etAidForChange == null) {
+        break missingId;
+      }
+
       id = R.id.et_key0;
       EditText etKey0 = ViewBindings.findChildViewById(rootView, id);
       if (etKey0 == null) {
@@ -253,8 +264,8 @@ public final class FragmentKeysBinding implements ViewBinding {
 
       return new FragmentKeysBinding((ScrollView) rootView, btnChangeKey, btnEnableRandomId,
           btnGenKey0, btnGenKey1, btnGenKey2, btnGenKey3, btnGenKey4, btnGetUid, btnSaveKeys,
-          etKey0, etKey1, etKey2, etKey3, etKey4, etKeyVersion, etNewKey, spinnerAuthForChange,
-          spinnerKeyToChange, tvKeysStatus);
+          etAidForChange, etKey0, etKey1, etKey2, etKey3, etKey4, etKeyVersion, etNewKey,
+          spinnerAuthForChange, spinnerKeyToChange, tvKeysStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

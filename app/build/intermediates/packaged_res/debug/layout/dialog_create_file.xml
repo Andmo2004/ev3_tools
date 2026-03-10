@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Número de Archivo" android:textSize="13sp" android:layout_marginBottom="4dp"/>
+    <EditText android:id="@+id/et_file_no"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:inputType="number" android:hint="0" android:text="0"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Tamaño (bytes)" android:textSize="13sp"
+        android:layout_marginTop="12dp" android:layout_marginBottom="4dp"/>
+    <EditText android:id="@+id/et_file_size"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:inputType="number" android:hint="256" android:text="256"/>
+
+</LinearLayout>

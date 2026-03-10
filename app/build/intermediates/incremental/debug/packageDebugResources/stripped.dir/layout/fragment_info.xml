@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Card: Identificación -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="Identificación" style="@style/SectionTitle"/>
                 <View android:layout_width="match_parent" android:layout_height="1dp"
@@ -46,7 +46,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Card: Versión -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,8 +57,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Versión del Hardware" style="@style/SectionTitle"/>
+                    android:text="Versión y Memoria" style="@style/SectionTitle"/>
                 <View android:layout_width="match_parent" android:layout_height="1dp"
                     android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
 
@@ -96,8 +96,13 @@
                 </LinearLayout>
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Tamaño de Almacenamiento" style="@style/FieldLabel"/>
+                    android:text="Memoria Total" style="@style/FieldLabel"/>
                 <TextView android:id="@+id/tv_storage" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" style="@style/InfoText" android:text="--"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Memoria Libre" style="@style/FieldLabel"/>
+                <TextView android:id="@+id/tv_free_memory" android:layout_width="wrap_content"
                     android:layout_height="wrap_content" style="@style/InfoText" android:text="--"/>
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -107,59 +112,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Card: TagTamper (si aplica) -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_tagtamper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Estado TagTamper" style="@style/SectionTitle"/>
-                <View android:layout_width="match_parent" android:layout_height="1dp"
-                    android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Estado Permanente" style="@style/FieldLabel"/>
-                <TextView android:id="@+id/tv_tt_perm" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" style="@style/InfoText" android:text="--"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Estado Actual" style="@style/FieldLabel"/>
-                <TextView android:id="@+id/tv_tt_curr" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" style="@style/InfoText" android:text="--"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card: Configuración Archivo -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Configuración Archivo NDEF" style="@style/SectionTitle"/>
-                <View android:layout_width="match_parent" android:layout_height="1dp"
-                    android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
-                <TextView android:id="@+id/tv_file_settings" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" style="@style/InfoText"
-                    android:text="Toca una tarjeta para leer la configuración"
-                    android:textIsSelectable="true"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Botón Leer -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_refresh"
             android:layout_width="match_parent"
@@ -167,7 +119,7 @@
             android:text="🔄 Releer Tarjeta"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/white"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 </ScrollView>

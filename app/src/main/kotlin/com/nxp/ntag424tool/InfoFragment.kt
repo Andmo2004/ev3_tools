@@ -15,12 +15,9 @@ class InfoFragment : Fragment() {
 
     private var _binding: FragmentInfoBinding? = null
     private val binding get() = _binding!!
+    private var manager: DesfireManager? = null
 
-    private var manager: Ntag424Manager? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,40 +34,29 @@ class InfoFragment : Fragment() {
         _binding = null
     }
 
-    fun onTagConnected(mgr: Ntag424Manager) {
+    fun onTagConnected(mgr: DesfireManager) {
         manager = mgr
-        // Solo leer si este fragment es el visible actualmente
-        if (_binding != null && isResumed) readInfo()
+        readInfo()
     }
 
     private fun readInfo() {
         val mgr = manager ?: return
-
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) { mgr.readCardInfo() }
             if (_binding == null) return@launch
-
             if (result.success) {
                 val info = result.data ?: return@launch
                 with(binding) {
-                    tvUid.text          = info.uid
-                    tvCardType.text     = info.cardType
-                    tvVendor.text       = info.vendor
-                    tvHwMajor.text      = info.hwMajor
-                    tvHwMinor.text      = info.hwMinor
-                    tvSwMajor.text      = info.swMajor
-                    tvSwMinor.text      = info.swMinor
-                    tvStorage.text      = info.storage
-                    tvBatch.text        = info.batchNo
-                    tvFileSettings.text = info.fileSettings.ifEmpty { "No disponible" }
-
-                    if (info.isTagTamper) {
-                        cardTagtamper.show()
-                        tvTtPerm.text = info.ttPermStatus
-                        tvTtCurr.text = info.ttCurrStatus
-                    } else {
-                        cardTagtamper.hide()
-                    }
+                    tvUid.text      = info.uid
+                    tvCardType.text = info.cardType
+                    tvVendor.text   = info.vendor
+                    tvHwMajor.text  = info.hwMajor
+                    tvHwMinor.text  = info.hwMinor
+                    tvSwMajor.text  = info.swMajor
+                    tvSwMinor.text  = info.swMinor
+                    tvStorage.text  = info.storage
+                    tvBatch.text    = info.batchNo
+                    tvFreeMemory.text = info.freeMemory
                 }
             } else {
                 toast(result.message)

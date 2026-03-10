@@ -8,7 +8,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
@@ -25,16 +24,13 @@ public final class FragmentInfoBinding implements ViewBinding {
   public final MaterialButton btnRefresh;
 
   @NonNull
-  public final CardView cardTagtamper;
-
-  @NonNull
   public final TextView tvBatch;
 
   @NonNull
   public final TextView tvCardType;
 
   @NonNull
-  public final TextView tvFileSettings;
+  public final TextView tvFreeMemory;
 
   @NonNull
   public final TextView tvHwMajor;
@@ -52,36 +48,26 @@ public final class FragmentInfoBinding implements ViewBinding {
   public final TextView tvSwMinor;
 
   @NonNull
-  public final TextView tvTtCurr;
-
-  @NonNull
-  public final TextView tvTtPerm;
-
-  @NonNull
   public final TextView tvUid;
 
   @NonNull
   public final TextView tvVendor;
 
   private FragmentInfoBinding(@NonNull ScrollView rootView, @NonNull MaterialButton btnRefresh,
-      @NonNull CardView cardTagtamper, @NonNull TextView tvBatch, @NonNull TextView tvCardType,
-      @NonNull TextView tvFileSettings, @NonNull TextView tvHwMajor, @NonNull TextView tvHwMinor,
-      @NonNull TextView tvStorage, @NonNull TextView tvSwMajor, @NonNull TextView tvSwMinor,
-      @NonNull TextView tvTtCurr, @NonNull TextView tvTtPerm, @NonNull TextView tvUid,
+      @NonNull TextView tvBatch, @NonNull TextView tvCardType, @NonNull TextView tvFreeMemory,
+      @NonNull TextView tvHwMajor, @NonNull TextView tvHwMinor, @NonNull TextView tvStorage,
+      @NonNull TextView tvSwMajor, @NonNull TextView tvSwMinor, @NonNull TextView tvUid,
       @NonNull TextView tvVendor) {
     this.rootView = rootView;
     this.btnRefresh = btnRefresh;
-    this.cardTagtamper = cardTagtamper;
     this.tvBatch = tvBatch;
     this.tvCardType = tvCardType;
-    this.tvFileSettings = tvFileSettings;
+    this.tvFreeMemory = tvFreeMemory;
     this.tvHwMajor = tvHwMajor;
     this.tvHwMinor = tvHwMinor;
     this.tvStorage = tvStorage;
     this.tvSwMajor = tvSwMajor;
     this.tvSwMinor = tvSwMinor;
-    this.tvTtCurr = tvTtCurr;
-    this.tvTtPerm = tvTtPerm;
     this.tvUid = tvUid;
     this.tvVendor = tvVendor;
   }
@@ -119,12 +105,6 @@ public final class FragmentInfoBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.card_tagtamper;
-      CardView cardTagtamper = ViewBindings.findChildViewById(rootView, id);
-      if (cardTagtamper == null) {
-        break missingId;
-      }
-
       id = R.id.tv_batch;
       TextView tvBatch = ViewBindings.findChildViewById(rootView, id);
       if (tvBatch == null) {
@@ -137,9 +117,9 @@ public final class FragmentInfoBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tv_file_settings;
-      TextView tvFileSettings = ViewBindings.findChildViewById(rootView, id);
-      if (tvFileSettings == null) {
+      id = R.id.tv_free_memory;
+      TextView tvFreeMemory = ViewBindings.findChildViewById(rootView, id);
+      if (tvFreeMemory == null) {
         break missingId;
       }
 
@@ -173,18 +153,6 @@ public final class FragmentInfoBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tv_tt_curr;
-      TextView tvTtCurr = ViewBindings.findChildViewById(rootView, id);
-      if (tvTtCurr == null) {
-        break missingId;
-      }
-
-      id = R.id.tv_tt_perm;
-      TextView tvTtPerm = ViewBindings.findChildViewById(rootView, id);
-      if (tvTtPerm == null) {
-        break missingId;
-      }
-
       id = R.id.tv_uid;
       TextView tvUid = ViewBindings.findChildViewById(rootView, id);
       if (tvUid == null) {
@@ -197,9 +165,8 @@ public final class FragmentInfoBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentInfoBinding((ScrollView) rootView, btnRefresh, cardTagtamper, tvBatch,
-          tvCardType, tvFileSettings, tvHwMajor, tvHwMinor, tvStorage, tvSwMajor, tvSwMinor,
-          tvTtCurr, tvTtPerm, tvUid, tvVendor);
+      return new FragmentInfoBinding((ScrollView) rootView, btnRefresh, tvBatch, tvCardType,
+          tvFreeMemory, tvHwMajor, tvHwMinor, tvStorage, tvSwMajor, tvSwMinor, tvUid, tvVendor);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

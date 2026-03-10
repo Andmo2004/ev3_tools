@@ -30,8 +30,11 @@
                     android:background="@color/colorDivider" android:layout_marginBottom="8dp"/>
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Clave 0 - Master / AppMaster (16 bytes hex)"
-                    style="@style/FieldLabel"/>
+                    android:text="AID de la app (000000 = PICC master)" style="@style/FieldLabel"/>
+                <EditText android:id="@+id/et_aid_for_change" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="000000"
+                    android:inputType="textNoSuggestions" android:maxLength="6"
+                    android:fontFamily="monospace" android:text="000000"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <EditText android:id="@+id/et_key0" android:layout_width="0dp"
