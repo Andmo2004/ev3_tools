@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         runCatching {
             nxpLib = NxpNfcLib.getInstance()
-            nxpLib!!.registerActivity(this, BuildConfig.TAPLINX_KEY)
+            nxpLib!!.registerActivity(this, BuildConfig.TAPLINX_KEY, packageName)
         }
     }
 
