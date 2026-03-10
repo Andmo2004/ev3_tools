@@ -3,7 +3,6 @@ package com.nxp.ntag424tool
 import android.app.PendingIntent
 import android.content.Intent
 import android.nfc.NfcAdapter
-import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvNfcStatus.text = "NFC deshabilitado — actívalo en Ajustes"
             }
             else -> {
-                binding.tvNfcStatus.text = "Acerca una tarjeta NTAG 424 DNA…"
+                binding.tvNfcStatus.text = "Acerca una tarjeta NTAG 424 DNA..."
             }
         }
 
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         runCatching {
             nxpLib = NxpNfcLib.getInstance()
             nxpLib!!.registerActivity(this, BuildConfig.TAPLINX_KEY, packageName)
+            Log.d(TAG, "initNfc: NxpNfcLib registrado OK")
         }.onFailure { e ->
             Log.e(TAG, "TapLinX init error: ${e.javaClass.name}: ${e.message}")
             binding.tvNfcStatus.text = "License error: ${e.javaClass.simpleName}: ${e.message}"
@@ -93,12 +93,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, null, null)
+        try {
+            nxpLib?.startForeGroundDispatch()
+            Log.d(TAG, "onResume: NXP foreground dispatch activo")
+        } catch (e: Exception) {
+            Log.w(TAG, "onResume: usando Android dispatch estandar: ${e.message}")
+            nfcAdapter?.enableForegroundDispatch(this, pendingIntent, null, null)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        nfcAdapter?.disableForegroundDispatch(this)
+        try {
+            nxpLib?.stopForeGroundDispatch()
+        } catch (e: Exception) {
+            nfcAdapter?.disableForegroundDispatch(this)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -108,39 +118,37 @@ class MainActivity : AppCompatActivity() {
             NfcAdapter.ACTION_TECH_DISCOVERED,
             NfcAdapter.ACTION_NDEF_DISCOVERED
         )
-        if (isNfcAction) {
-            intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)?.let { processTag(it) }
-        }
+        if (isNfcAction) processTagFromIntent(intent)
     }
 
-    private fun processTag(androidTag: Tag) {
-        binding.tvNfcStatus.text = "Procesando tarjeta…"
+    private fun processTagFromIntent(intent: Intent) {
+        binding.tvNfcStatus.text = "Procesando tarjeta..."
 
         lifecycleScope.launch(Dispatchers.IO) {
             runCatching {
-                Log.d(TAG, "processTag: obteniendo tipo de tarjeta...")
+                val lib = nxpLib
+                    ?: throw IllegalStateException("NxpNfcLib no inicializado — verifica la licencia TapLinX")
 
-                val ntag: INTAG424DNA = nxpLib?.let { lib ->
-                    val type = lib.getCardType(androidTag)
-                    Log.d(TAG, "processTag: cardType = $type")
-                    if (type == CardType.NTAG424DNATagTamper)
-                        DESFireFactory.getInstance().getNTAG424DNATT(lib.customModules) as INTAG424DNA
-                    else
-                        DESFireFactory.getInstance().getNTAG424DNA(lib.customModules)
-                } ?: DESFireFactory.getInstance().getNTAG424DNA(null)
+                // Pasar el Intent completo vincula el tag fisico en CustomModules
+                Log.d(TAG, "processTag: getCardType(intent)...")
+                val cardType = lib.getCardType(intent)
+                Log.d(TAG, "processTag: cardType = $cardType")
 
-                // Conectar el reader con el tag físico
+                val ntag: INTAG424DNA = if (cardType == CardType.NTAG424DNATagTamper)
+                    DESFireFactory.getInstance().getNTAG424DNATT(lib.customModules) as INTAG424DNA
+                else
+                    DESFireFactory.getInstance().getNTAG424DNA(lib.customModules)
+
                 Log.d(TAG, "processTag: conectando reader...")
                 ntag.reader.connect()
                 Log.d(TAG, "processTag: connect() OK")
 
                 val typeName = ntag.type?.tagName ?: "NTAG 424 DNA"
-                Log.d(TAG, "processTag: typeName = $typeName")
-                val manager = Ntag424Manager(ntag, keyStore)
+                val manager  = Ntag424Manager(ntag, keyStore)
 
                 withContext(Dispatchers.Main) {
-                    binding.tvNfcStatus.text = "✅ $typeName detectada"
-                    binding.tvTagType.text = typeName
+                    binding.tvNfcStatus.text = "OK $typeName detectada"
+                    binding.tvTagType.text   = typeName
                     Toast.makeText(this@MainActivity, "Conectado: $typeName", Toast.LENGTH_SHORT).show()
                     notifyFragments(manager)
                 }

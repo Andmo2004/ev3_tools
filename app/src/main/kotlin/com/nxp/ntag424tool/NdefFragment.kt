@@ -52,8 +52,8 @@ class NdefFragment : Fragment() {
 
     fun onTagConnected(mgr: Ntag424Manager) {
         manager = mgr
-        // Solo lanzar si la vista está activa
-        if (_binding != null) onReadClicked()
+        // Solo leer automáticamente si este fragment es el visible
+        if (_binding != null && isResumed) onReadClicked()
     }
 
     private fun onWriteClicked() {
@@ -68,7 +68,7 @@ class NdefFragment : Fragment() {
         }
         val authKey = binding.spinnerAuthKeyNdef.selectedItemPosition
 
-        showStatus("Escribiendo NDEF…", true)
+        showStatus("Escribiendo NDEF...", true)
 
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) { mgr.writeNdef(content, type, authKey) }
@@ -86,7 +86,7 @@ class NdefFragment : Fragment() {
             val result = withContext(Dispatchers.IO) { mgr.readNdef(authKey) }
             if (_binding == null) return@launch
             if (result.success) {
-                binding.tvCurrentNdef.text = result.data ?: "(vacío)"
+                binding.tvCurrentNdef.text = result.data ?: "(vacio)"
             } else {
                 binding.tvCurrentNdef.text = "Error: ${result.message}"
             }

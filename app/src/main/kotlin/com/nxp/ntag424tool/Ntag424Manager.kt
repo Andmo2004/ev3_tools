@@ -23,18 +23,34 @@ class Ntag424Manager(
     private val keyStore: KeyStore
 ) {
 
-    // ─── Conexión ──────────────────────────────────────────────────────────
+    // ─── Helpers de sesion ────────────────────────────────────────────────
 
     private fun ensureConnected() {
-        try {
-            if (!tag.reader.isConnected) {
-                Log.d(TAG, "ensureConnected: reader no conectado, reconectando...")
-                tag.reader.connect()
-                Log.d(TAG, "ensureConnected: reconectado OK")
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "ensureConnected: ${e.message}")
+        if (!tag.reader.isConnected) {
+            Log.d(TAG, "ensureConnected: reconectando...")
+            tag.reader.connect()
         }
+        // Aumentar timeout para operaciones complejas (auth + comando)
+        // El default de Android IsoDep es 300ms, insuficiente para EV2
+        tag.reader.setTimeout(5000L)
+    }
+
+    /**
+     * Siempre seleccionar PICC + app antes de cualquier comando.
+     * Esto resetea cualquier estado de sesion previo.
+     */
+    /**
+     * Cierra y reabre la conexion ISO DEP para limpiar cualquier
+     * estado de sesion previo (errores 6A82, 91CA, etc).
+     */
+    private fun reconnect() {
+        Log.d(TAG, "reconnect: cerrando reader...")
+        runCatching { tag.reader.close() }
+        Thread.sleep(50)
+        Log.d(TAG, "reconnect: reabriendo reader...")
+        tag.reader.connect()
+        tag.reader.setTimeout(5000L)
+        Log.d(TAG, "reconnect: OK")
     }
 
     private fun selectApp() {
@@ -45,16 +61,21 @@ class Ntag424Manager(
         Log.d(TAG, "selectApp: OK")
     }
 
+    /** Reconnect + selectApp en un solo paso. Usar al inicio de cada operacion. */
+    private fun resetAndSelect() {
+        reconnect()
+        selectApp()
+    }
+
     // ─── Leer info ────────────────────────────────────────────────────────
 
     fun readCardInfo(): OperationResult<CardInfo> = runCatching {
-        ensureConnected()
-        selectApp()
+        resetAndSelect()
 
-        val uid      = tag.uid?.toHexString() ?: "--"
-        val cardType = tag.type
+        val uid         = tag.uid?.toHexString() ?: "--"
+        val cardType    = tag.type
         val isTagTamper = cardType == CardType.NTAG424DNATagTamper
-        val typeName = cardType?.tagName ?: "NTAG 424 DNA"
+        val typeName    = cardType?.tagName ?: "NTAG 424 DNA"
 
         var hwMajor = "--"; var hwMinor = "--"
         var swMajor = "--"; var swMinor = "--"
@@ -72,7 +93,6 @@ class Ntag424Manager(
                 if (v.size >= 21) batch = v.copyOfRange(14, 19).toHexString()
             }
         }
-
         runCatching { storage = "${tag.totalMemory} bytes" }
 
         var ttPerm = "--"; var ttCurr = "--"
@@ -85,15 +105,17 @@ class Ntag424Manager(
             }.onFailure { ttPerm = "Error auth: ${it.message}" }
         }
 
+        // Reiniciar sesion para leer file settings
         val fileSettings = runCatching {
-            ensureConnected()
             selectApp()
             tag.authenticateEV2First(0, buildKeyData(0), null)
-            "Archivo NDEF (0x02) presente — ve a la pestaña SDM para configurarlo."
-        }.getOrElse { "No autenticado: configura la Clave 0 primero." }
+            "Archivo NDEF (0x02) presente — ve a la pestana SDM para configurarlo."
+        }.getOrElse { e ->
+            "No autenticado (${e.message}): configura la Clave 0 primero."
+        }
 
         OperationResult.ok(
-            "Tarjeta leída",
+            "Tarjeta leida",
             CardInfo(
                 uid = uid, cardType = typeName, vendor = vendor,
                 hwMajor = hwMajor, hwMinor = hwMinor,
@@ -113,12 +135,10 @@ class Ntag424Manager(
 
     fun writeNdef(content: String, type: NdefType, authKeyNum: Int): OperationResult<Unit> =
         runCatching {
-            ensureConnected()
-            Log.d(TAG, "writeNdef: selectApp...")
-            selectApp()
+            resetAndSelect()
             Log.d(TAG, "writeNdef: autenticando con clave $authKeyNum...")
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
-            Log.d(TAG, "writeNdef: autenticación OK, construyendo mensaje...")
+            Log.d(TAG, "writeNdef: auth OK, construyendo NDEF...")
 
             val msg = when (type) {
                 NdefType.URL -> NdefMessageWrapper(
@@ -154,7 +174,7 @@ class Ntag424Manager(
                 )
             }
 
-            Log.d(TAG, "writeNdef: escribiendo mensaje NDEF...")
+            Log.d(TAG, "writeNdef: escribiendo...")
             tag.writeNDEF(msg)
             Log.d(TAG, "writeNdef: OK")
             OperationResult.ok("NDEF escrito correctamente")
@@ -166,25 +186,25 @@ class Ntag424Manager(
     // ─── Leer NDEF ────────────────────────────────────────────────────────
 
     fun readNdef(authKeyNum: Int): OperationResult<String> = runCatching {
-        ensureConnected()
-        selectApp()
+        resetAndSelect()
 
         val msg: INdefMessage = runCatching {
+            Log.d(TAG, "readNdef: intentando sin auth...")
             tag.readNDEF()
         }.getOrElse {
-            Log.d(TAG, "readNdef: lectura sin auth falló, autenticando...")
+            Log.d(TAG, "readNdef: autenticando con clave $authKeyNum...")
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
             tag.readNDEF()
         }
 
-        OperationResult.ok("NDEF leído", msg.ndefToString())
+        OperationResult.ok("NDEF leido", msg.ndefToString())
     }.getOrElse { e ->
         Log.e(TAG, "readNdef: ${e.javaClass.name}: ${e.message}", e)
         OperationResult(false, "Error: ${e.message}", null)
     }
 
     private fun INdefMessage.ndefToString(): String {
-        val bytes = toByteArray() ?: return "(vacío)"
+        val bytes = toByteArray() ?: return "(vacio)"
         val hex   = bytes.toHexString()
         val text  = runCatching {
             val s       = bytes.toString(Charsets.US_ASCII)
@@ -201,8 +221,7 @@ class Ntag424Manager(
 
     fun applySdmConfig(config: SdmConfig, authKeyNum: Int): OperationResult<String> =
         runCatching {
-            ensureConnected()
-            selectApp()
+            resetAndSelect()
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
 
             val ar = config.buildAccessRightsBytes()
@@ -214,10 +233,10 @@ class Ntag424Manager(
             fs.isSDMEnabled = config.sdmEnabled
 
             if (config.sdmEnabled) {
-                fs.isUIDMirroringEnabled          = config.uidMirror
-                fs.isSDMReadCounterEnabled        = config.counterMirror
-                fs.isSDMReadCounterLimitEnabled   = config.ctrLimitEnabled
-                fs.isSDMEncryptFileDataEnabled    = config.encFileData
+                fs.isUIDMirroringEnabled        = config.uidMirror
+                fs.isSDMReadCounterEnabled      = config.counterMirror
+                fs.isSDMReadCounterLimitEnabled = config.ctrLimitEnabled
+                fs.isSDMEncryptFileDataEnabled  = config.encFileData
                 fs.setSdmAccessRights(config.buildSdmAccessRightsBytes())
 
                 if (config.uidMirror && !config.encPiccData)
@@ -239,7 +258,7 @@ class Ntag424Manager(
             tag.changeFileSettings(0x02, fs)
 
             val summary = buildString {
-                appendLine("✅ Configuración SDM aplicada")
+                appendLine("OK Configuracion SDM aplicada")
                 appendLine("FileOption: 0x%02X".format(config.buildFileOptionByte().toInt() and 0xFF))
                 appendLine("AccessRights: ${ar.toHexString()}")
                 appendLine("SDMOptions: 0x%02X".format(config.buildSdmOptionsByte().toInt() and 0xFF))
@@ -259,8 +278,7 @@ class Ntag424Manager(
         keyVersion: Int,
         authKeyNum: Int
     ): OperationResult<Unit> = runCatching {
-        ensureConnected()
-        selectApp()
+        resetAndSelect()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
         tag.changeKey(keyNumToChange, newKeyBytes, keyStore[keyNumToChange], keyVersion.toByte())
         keyStore[keyNumToChange] = newKeyBytes
@@ -273,13 +291,12 @@ class Ntag424Manager(
     // ─── Random ID ────────────────────────────────────────────────────────
 
     fun enableRandomId(authKeyNum: Int): OperationResult<Unit> = runCatching {
-        ensureConnected()
-        selectApp()
+        resetAndSelect()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
         tag.setPICCConfiguration(true)
         OperationResult.ok(
-            "Random ID habilitado.\n⚠️ OPERACIÓN IRREVERSIBLE.\n" +
-            "ATQA cambia de 0x0344 → 0x0304."
+            "Random ID habilitado.\nOPERACION IRREVERSIBLE.\n" +
+            "ATQA cambia de 0x0344 -> 0x0304."
         )
     }.getOrElse { e ->
         OperationResult.fail("Error: ${e.message}")
@@ -288,8 +305,7 @@ class Ntag424Manager(
     // ─── Obtener UID real ─────────────────────────────────────────────────
 
     fun getRealUid(authKeyNum: Int): OperationResult<String> = runCatching {
-        ensureConnected()
-        selectApp()
+        resetAndSelect()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
         val uid = tag.cardUID.toHexString()
         OperationResult.ok("UID real: $uid", uid)
@@ -297,7 +313,7 @@ class Ntag424Manager(
         OperationResult(false, "Error: ${e.message}", null)
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────
+    // ─── Helpers privados ─────────────────────────────────────────────────
 
     private fun buildKeyData(keyIndex: Int): KeyData = buildKeyData(keyStore[keyIndex])
 

@@ -39,18 +39,15 @@ class InfoFragment : Fragment() {
 
     fun onTagConnected(mgr: Ntag424Manager) {
         manager = mgr
-        // Solo lanzar si la vista está activa
-        if (_binding != null) readInfo()
+        // Solo leer si este fragment es el visible actualmente
+        if (_binding != null && isResumed) readInfo()
     }
 
     private fun readInfo() {
         val mgr = manager ?: return
 
-        // Usar lifecycleScope del fragment (no viewLifecycleOwner) con guardia de binding
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) { mgr.readCardInfo() }
-
-            // Comprobar que la vista sigue viva antes de actualizar UI
             if (_binding == null) return@launch
 
             if (result.success) {
