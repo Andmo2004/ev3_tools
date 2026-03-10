@@ -52,6 +52,7 @@ class NdefFragment : Fragment() {
 
     fun onTagConnected(mgr: Ntag424Manager) {
         manager = mgr
+        // Solo lanzar si la vista está activa
         if (_binding != null) onReadClicked()
     }
 
@@ -68,9 +69,10 @@ class NdefFragment : Fragment() {
         val authKey = binding.spinnerAuthKeyNdef.selectedItemPosition
 
         showStatus("Escribiendo NDEF…", true)
+
         lifecycleScope.launch {
-            if (_binding == null) return@launch   // ← guardia
             val result = withContext(Dispatchers.IO) { mgr.writeNdef(content, type, authKey) }
+            if (_binding == null) return@launch
             showStatus(result.message, result.success)
             if (result.success) onReadClicked()
         }
@@ -81,8 +83,8 @@ class NdefFragment : Fragment() {
         val authKey = binding.spinnerAuthKeyNdef.selectedItemPosition
 
         lifecycleScope.launch {
-            if (_binding == null) return@launch   // ← guardia
             val result = withContext(Dispatchers.IO) { mgr.readNdef(authKey) }
+            if (_binding == null) return@launch
             if (result.success) {
                 binding.tvCurrentNdef.text = result.data ?: "(vacío)"
             } else {

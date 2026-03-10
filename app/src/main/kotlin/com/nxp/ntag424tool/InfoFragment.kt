@@ -39,28 +39,32 @@ class InfoFragment : Fragment() {
 
     fun onTagConnected(mgr: Ntag424Manager) {
         manager = mgr
+        // Solo lanzar si la vista está activa
         if (_binding != null) readInfo()
     }
 
     private fun readInfo() {
         val mgr = manager ?: return
 
+        // Usar lifecycleScope del fragment (no viewLifecycleOwner) con guardia de binding
         lifecycleScope.launch {
-            if (_binding == null) return@launch   // ← guardia
             val result = withContext(Dispatchers.IO) { mgr.readCardInfo() }
+
+            // Comprobar que la vista sigue viva antes de actualizar UI
+            if (_binding == null) return@launch
 
             if (result.success) {
                 val info = result.data ?: return@launch
                 with(binding) {
-                    tvUid.text        = info.uid
-                    tvCardType.text   = info.cardType
-                    tvVendor.text     = info.vendor
-                    tvHwMajor.text    = info.hwMajor
-                    tvHwMinor.text    = info.hwMinor
-                    tvSwMajor.text    = info.swMajor
-                    tvSwMinor.text    = info.swMinor
-                    tvStorage.text    = info.storage
-                    tvBatch.text      = info.batchNo
+                    tvUid.text          = info.uid
+                    tvCardType.text     = info.cardType
+                    tvVendor.text       = info.vendor
+                    tvHwMajor.text      = info.hwMajor
+                    tvHwMinor.text      = info.hwMinor
+                    tvSwMajor.text      = info.swMajor
+                    tvSwMinor.text      = info.swMinor
+                    tvStorage.text      = info.storage
+                    tvBatch.text        = info.batchNo
                     tvFileSettings.text = info.fileSettings.ifEmpty { "No disponible" }
 
                     if (info.isTagTamper) {

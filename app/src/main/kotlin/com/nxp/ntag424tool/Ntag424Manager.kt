@@ -22,32 +22,39 @@ class Ntag424Manager(
     private val tag: INTAG424DNA,
     private val keyStore: KeyStore
 ) {
-    private fun buildUriPayload(url: String): ByteArray {
-    // Prefijos estándar NDEF URI (NFC Forum URI Record Type Definition)
-    val prefixes = mapOf(
-        "https://www." to 0x04,
-        "http://www."  to 0x02,
-        "https://"     to 0x03,
-        "http://"      to 0x01
-    )
-    for ((prefix, code) in prefixes) {
-        if (url.startsWith(prefix)) {
-            val rest = url.removePrefix(prefix).toByteArray(Charsets.US_ASCII)
-            return byteArrayOf(code.toByte()) + rest
+
+    // ─── Conexión ──────────────────────────────────────────────────────────
+
+    private fun ensureConnected() {
+        try {
+            if (!tag.reader.isConnected) {
+                Log.d(TAG, "ensureConnected: reader no conectado, reconectando...")
+                tag.reader.connect()
+                Log.d(TAG, "ensureConnected: reconectado OK")
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "ensureConnected: ${e.message}")
         }
     }
-    // Sin prefijo reconocido
-    return byteArrayOf(0x00) + url.toByteArray(Charsets.US_ASCII)
-}
+
+    private fun selectApp() {
+        Log.d(TAG, "selectApp: isoSelectPICC...")
+        tag.isoSelectPICC()
+        Log.d(TAG, "selectApp: isoSelectApplicationByDFName...")
+        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+        Log.d(TAG, "selectApp: OK")
+    }
+
+    // ─── Leer info ────────────────────────────────────────────────────────
 
     fun readCardInfo(): OperationResult<CardInfo> = runCatching {
-        tag.isoSelectPICC()
-        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+        ensureConnected()
+        selectApp()
 
-        val uid        = tag.uid?.toHexString() ?: "--"
-        val cardType   = tag.type
+        val uid      = tag.uid?.toHexString() ?: "--"
+        val cardType = tag.type
         val isTagTamper = cardType == CardType.NTAG424DNATagTamper
-        val typeName   = cardType?.tagName ?: "NTAG 424 DNA"
+        val typeName = cardType?.tagName ?: "NTAG 424 DNA"
 
         var hwMajor = "--"; var hwMinor = "--"
         var swMajor = "--"; var swMinor = "--"
@@ -79,6 +86,8 @@ class Ntag424Manager(
         }
 
         val fileSettings = runCatching {
+            ensureConnected()
+            selectApp()
             tag.authenticateEV2First(0, buildKeyData(0), null)
             "Archivo NDEF (0x02) presente — ve a la pestaña SDM para configurarlo."
         }.getOrElse { "No autenticado: configura la Clave 0 primero." }
@@ -96,37 +105,35 @@ class Ntag424Manager(
             )
         )
     }.getOrElse { e ->
-        Log.e(TAG, "readCardInfo: ${e.message}", e)
+        Log.e(TAG, "readCardInfo: ${e.javaClass.name}: ${e.message}", e)
         OperationResult(false, "Error: ${e.message}", null)
     }
 
+    // ─── Escribir NDEF ────────────────────────────────────────────────────
+
     fun writeNdef(content: String, type: NdefType, authKeyNum: Int): OperationResult<Unit> =
         runCatching {
-            Log.d(TAG, "writeNdef: seleccionando PICC...")
-            tag.isoSelectPICC()
-            Log.d(TAG, "writeNdef: seleccionando app...")
-            tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+            ensureConnected()
+            Log.d(TAG, "writeNdef: selectApp...")
+            selectApp()
             Log.d(TAG, "writeNdef: autenticando con clave $authKeyNum...")
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
-            Log.d(TAG, "writeNdef: autenticación OK")
-            // tag.isoSelectPICC()                                    // ← añadir esta línea
-            // tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
-            // tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
+            Log.d(TAG, "writeNdef: autenticación OK, construyendo mensaje...")
 
             val msg = when (type) {
                 NdefType.URL -> NdefMessageWrapper(
                     NdefRecordWrapper(
-                        NdefRecordWrapper.TNF_WELL_KNOWN,           // ← cambiar a WELL_KNOWN
-                        "U".toByteArray(Charsets.US_ASCII),          // ← type = "U" (URI record)
+                        NdefRecordWrapper.TNF_WELL_KNOWN,
+                        "U".toByteArray(Charsets.US_ASCII),
                         ByteArray(0),
-                        buildUriPayload(content)                     // ← payload con prefijo
+                        buildUriPayload(content)
                     )
                 )
                 NdefType.TEXT -> {
-                    val lang = "es".toByteArray(Charsets.US_ASCII)
-                    val text = content.toByteArray(Charsets.UTF_8)
+                    val lang    = "es".toByteArray(Charsets.US_ASCII)
+                    val text    = content.toByteArray(Charsets.UTF_8)
                     val payload = ByteArray(1 + lang.size + text.size)
-                    payload[0] = lang.size.toByte()
+                    payload[0]  = lang.size.toByte()
                     lang.copyInto(payload, 1)
                     text.copyInto(payload, 1 + lang.size)
                     NdefMessageWrapper(
@@ -147,32 +154,40 @@ class Ntag424Manager(
                 )
             }
 
+            Log.d(TAG, "writeNdef: escribiendo mensaje NDEF...")
             tag.writeNDEF(msg)
+            Log.d(TAG, "writeNdef: OK")
             OperationResult.ok("NDEF escrito correctamente")
         }.getOrElse { e ->
-            Log.e(TAG, "writeNdef: ${e.message}", e)
+            Log.e(TAG, "writeNdef: ${e.javaClass.name}: ${e.message}", e)
             OperationResult.fail("Error: ${e.message}")
         }
 
-    fun readNdef(authKeyNum: Int): OperationResult<String> = runCatching {
-        tag.isoSelectPICC()                                    // ← añadir esta línea
-        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+    // ─── Leer NDEF ────────────────────────────────────────────────────────
 
-        val msg: INdefMessage = runCatching { tag.readNDEF() }.getOrElse {
+    fun readNdef(authKeyNum: Int): OperationResult<String> = runCatching {
+        ensureConnected()
+        selectApp()
+
+        val msg: INdefMessage = runCatching {
+            tag.readNDEF()
+        }.getOrElse {
+            Log.d(TAG, "readNdef: lectura sin auth falló, autenticando...")
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
             tag.readNDEF()
         }
 
         OperationResult.ok("NDEF leído", msg.ndefToString())
     }.getOrElse { e ->
+        Log.e(TAG, "readNdef: ${e.javaClass.name}: ${e.message}", e)
         OperationResult(false, "Error: ${e.message}", null)
     }
 
     private fun INdefMessage.ndefToString(): String {
         val bytes = toByteArray() ?: return "(vacío)"
-        val hex = bytes.toHexString()
-        val text = runCatching {
-            val s = bytes.toString(Charsets.US_ASCII)
+        val hex   = bytes.toHexString()
+        val text  = runCatching {
+            val s       = bytes.toString(Charsets.US_ASCII)
             val httpIdx = s.indexOf("http")
             if (httpIdx >= 0) "URL: ${s.substring(httpIdx)}" else "Texto: ${s.trim()}"
         }.getOrElse { "" }
@@ -182,10 +197,12 @@ class Ntag424Manager(
         }
     }
 
+    // ─── Aplicar SDM ──────────────────────────────────────────────────────
+
     fun applySdmConfig(config: SdmConfig, authKeyNum: Int): OperationResult<String> =
         runCatching {
-            tag.isoSelectPICC()                                    // ← añadir esta línea
-            tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+            ensureConnected()
+            selectApp()
             tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
 
             val ar = config.buildAccessRightsBytes()
@@ -197,10 +214,10 @@ class Ntag424Manager(
             fs.isSDMEnabled = config.sdmEnabled
 
             if (config.sdmEnabled) {
-                fs.isUIDMirroringEnabled = config.uidMirror
-                fs.isSDMReadCounterEnabled = config.counterMirror
-                fs.isSDMReadCounterLimitEnabled = config.ctrLimitEnabled
-                fs.isSDMEncryptFileDataEnabled = config.encFileData
+                fs.isUIDMirroringEnabled          = config.uidMirror
+                fs.isSDMReadCounterEnabled        = config.counterMirror
+                fs.isSDMReadCounterLimitEnabled   = config.ctrLimitEnabled
+                fs.isSDMEncryptFileDataEnabled    = config.encFileData
                 fs.setSdmAccessRights(config.buildSdmAccessRightsBytes())
 
                 if (config.uidMirror && !config.encPiccData)
@@ -230,9 +247,11 @@ class Ntag424Manager(
             }
             OperationResult.ok(summary, summary)
         }.getOrElse { e ->
-            Log.e(TAG, "applySdmConfig: ${e.message}", e)
+            Log.e(TAG, "applySdmConfig: ${e.javaClass.name}: ${e.message}", e)
             OperationResult(false, "Error: ${e.message}", null)
         }
+
+    // ─── Cambiar clave ────────────────────────────────────────────────────
 
     fun changeKey(
         keyNumToChange: Int,
@@ -240,20 +259,22 @@ class Ntag424Manager(
         keyVersion: Int,
         authKeyNum: Int
     ): OperationResult<Unit> = runCatching {
-        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+        ensureConnected()
+        selectApp()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
-
         tag.changeKey(keyNumToChange, newKeyBytes, keyStore[keyNumToChange], keyVersion.toByte())
-
         keyStore[keyNumToChange] = newKeyBytes
         OperationResult.ok("Clave $keyNumToChange cambiada.\nNueva: ${newKeyBytes.toHexString()}")
     }.getOrElse { e ->
-        Log.e(TAG, "changeKey: ${e.message}", e)
+        Log.e(TAG, "changeKey: ${e.javaClass.name}: ${e.message}", e)
         OperationResult.fail("Error: ${e.message}")
     }
 
+    // ─── Random ID ────────────────────────────────────────────────────────
+
     fun enableRandomId(authKeyNum: Int): OperationResult<Unit> = runCatching {
-        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+        ensureConnected()
+        selectApp()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
         tag.setPICCConfiguration(true)
         OperationResult.ok(
@@ -264,8 +285,11 @@ class Ntag424Manager(
         OperationResult.fail("Error: ${e.message}")
     }
 
+    // ─── Obtener UID real ─────────────────────────────────────────────────
+
     fun getRealUid(authKeyNum: Int): OperationResult<String> = runCatching {
-        tag.isoSelectApplicationByDFName(NTAG424_APP_NAME)
+        ensureConnected()
+        selectApp()
         tag.authenticateEV2First(authKeyNum, buildKeyData(authKeyNum), null)
         val uid = tag.cardUID.toHexString()
         OperationResult.ok("UID real: $uid", uid)
@@ -273,11 +297,28 @@ class Ntag424Manager(
         OperationResult(false, "Error: ${e.message}", null)
     }
 
-    private fun buildKeyData(keyIndex: Int): KeyData =
-        buildKeyData(keyStore[keyIndex])
+    // ─── Helpers ──────────────────────────────────────────────────────────
+
+    private fun buildKeyData(keyIndex: Int): KeyData = buildKeyData(keyStore[keyIndex])
 
     private fun buildKeyData(keyBytes: ByteArray): KeyData =
         KeyData().apply { key = SecretKeySpec(keyBytes, "AES") }
+
+    private fun buildUriPayload(url: String): ByteArray {
+        val prefixes = listOf(
+            "https://www." to 0x04,
+            "http://www."  to 0x02,
+            "https://"     to 0x03,
+            "http://"      to 0x01
+        )
+        for ((prefix, code) in prefixes) {
+            if (url.startsWith(prefix)) {
+                val rest = url.removePrefix(prefix).toByteArray(Charsets.US_ASCII)
+                return byteArrayOf(code.toByte()) + rest
+            }
+        }
+        return byteArrayOf(0x00) + url.toByteArray(Charsets.US_ASCII)
+    }
 }
 
 enum class NdefType { URL, TEXT, RAW_HEX }

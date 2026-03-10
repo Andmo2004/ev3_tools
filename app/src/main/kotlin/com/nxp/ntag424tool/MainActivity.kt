@@ -6,6 +6,7 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,7 +21,8 @@ import com.nxp.ntag424tool.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.util.Log
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,10 +33,10 @@ class MainActivity : AppCompatActivity() {
     private var pendingIntent: PendingIntent? = null
     private var nxpLib: NxpNfcLib? = null
 
-    private val infoFragment  = InfoFragment()
-    private val ndefFragment  = NdefFragment()
-    private val sdmFragment   = SdmFragment()
-    private val keysFragment  = KeysFragment()
+    private val infoFragment = InfoFragment()
+    private val ndefFragment = NdefFragment()
+    private val sdmFragment  = SdmFragment()
+    private val keysFragment = KeysFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,17 +75,17 @@ class MainActivity : AppCompatActivity() {
             nxpLib = NxpNfcLib.getInstance()
             nxpLib!!.registerActivity(this, BuildConfig.TAPLINX_KEY, packageName)
         }.onFailure { e ->
-            Log.e("TapLinX", "Error completo: ${e.javaClass.name}: ${e.message}")
+            Log.e(TAG, "TapLinX init error: ${e.javaClass.name}: ${e.message}")
             binding.tvNfcStatus.text = "License error: ${e.javaClass.simpleName}: ${e.message}"
         }
     }
 
     private fun setupTabs() {
         val adapter = TabsPagerAdapter(supportFragmentManager).apply {
-            addFragment(infoFragment,  "INFO")
-            addFragment(ndefFragment,  "NDEF")
-            addFragment(sdmFragment,   "SDM")
-            addFragment(keysFragment,  "CLAVES")
+            addFragment(infoFragment, "INFO")
+            addFragment(ndefFragment, "NDEF")
+            addFragment(sdmFragment,  "SDM")
+            addFragment(keysFragment, "CLAVES")
         }
         binding.viewPager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
@@ -116,24 +118,24 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             runCatching {
-            Log.d("TapLinX", "Key: ${BuildConfig.TAPLINX_KEY.take(20)}...")
-                val ntag: INTAG424DNA? = nxpLib?.let { lib ->
+                Log.d(TAG, "processTag: obteniendo tipo de tarjeta...")
+
+                val ntag: INTAG424DNA = nxpLib?.let { lib ->
                     val type = lib.getCardType(androidTag)
+                    Log.d(TAG, "processTag: cardType = $type")
                     if (type == CardType.NTAG424DNATagTamper)
                         DESFireFactory.getInstance().getNTAG424DNATT(lib.customModules) as INTAG424DNA
                     else
                         DESFireFactory.getInstance().getNTAG424DNA(lib.customModules)
                 } ?: DESFireFactory.getInstance().getNTAG424DNA(null)
 
-                if (ntag == null) {
-                    withContext(Dispatchers.Main) {
-                        binding.tvNfcStatus.text = "Tarjeta no compatible (se necesita NTAG 424 DNA)"
-                    }
-                    return@launch
-                }
-
+                // Conectar el reader con el tag físico
+                Log.d(TAG, "processTag: conectando reader...")
                 ntag.reader.connect()
+                Log.d(TAG, "processTag: connect() OK")
+
                 val typeName = ntag.type?.tagName ?: "NTAG 424 DNA"
+                Log.d(TAG, "processTag: typeName = $typeName")
                 val manager = Ntag424Manager(ntag, keyStore)
 
                 withContext(Dispatchers.Main) {
@@ -143,8 +145,9 @@ class MainActivity : AppCompatActivity() {
                     notifyFragments(manager)
                 }
             }.onFailure { e ->
+                Log.e(TAG, "processTag error: ${e.javaClass.name}: ${e.message}", e)
                 withContext(Dispatchers.Main) {
-                    binding.tvNfcStatus.text = "Error: ${e.message}"
+                    binding.tvNfcStatus.text = "Error: ${e.javaClass.simpleName}: ${e.message}"
                 }
             }
         }
