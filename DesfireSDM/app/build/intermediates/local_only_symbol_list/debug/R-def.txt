@@ -18,3 +18,4 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
 style Theme.DesfireSDM
+xml nfc_tech_filter

@@ -35,7 +35,7 @@
 23-->[androidx.core:core:1.10.1] /home/codespace/.gradle/caches/transforms-3/0933a9d5715ef1c3a8ea86597b98890c/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
 24
 25    <application
-25-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:9:5-32:19
+25-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:9:5-34:19
 26        android:allowBackup="true"
 26-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:10:9-35
 27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -43,17 +43,17 @@
 28        android:debuggable="true"
 29        android:extractNativeLibs="true"
 30        android:icon="@mipmap/ic_launcher"
-30-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:12:9-43
+30-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:11:9-43
 31        android:label="@string/app_name"
-31-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:13:9-41
+31-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:12:9-41
 32        android:roundIcon="@mipmap/ic_launcher_round"
-32-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:14:9-54
+32-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:13:9-54
 33        android:supportsRtl="true"
-33-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:15:9-35
+33-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:14:9-35
 34        android:theme="@style/Theme.DesfireSDM" >
-34-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:16:9-48
+34-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:15:9-48
 35        <activity
-35-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:18:9-31:20
+35-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:18:9-32:20
 36            android:name="com.example.desfiresdm.MainActivity"
 36-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:19:13-41
 37            android:exported="true"
@@ -70,86 +70,88 @@
 42-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:24:17-77
 42-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:24:27-74
 43            </intent-filter>
-44            <!-- Also catch NFC intent directly -->
-45            <intent-filter>
-45-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:27:13-30:29
-46                <action android:name="android.nfc.action.TAG_DISCOVERED" />
-46-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:28:17-76
-46-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:28:25-73
+44            <intent-filter>
+44-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:26:13-28:29
+45                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+45-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:27:17-77
+45-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:27:25-74
+46            </intent-filter>
 47
-48                <category android:name="android.intent.category.DEFAULT" />
-48-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:29:17-76
-48-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:29:27-73
-49            </intent-filter>
-50        </activity>
-51
-52        <receiver
-52-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:23:9-31:20
-53            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-53-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:24:13-78
-54            android:enabled="true"
-54-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:25:13-35
-55            android:exported="true" >
-55-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:26:13-36
-56            <intent-filter>
-56-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:28:13-30:29
-57                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
-57-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:29:17-94
-57-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:29:25-91
-58            </intent-filter>
-59        </receiver>
-60
-61        <service
-61-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:33:9-37:48
-62            android:name="com.google.android.gms.analytics.AnalyticsService"
-62-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:34:13-77
-63            android:enabled="true"
-63-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:35:13-35
-64            android:exported="false" />
-64-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:36:13-37
-65        <!--
-66             Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
-67             installation campaign reporting
-68        -->
-69        <receiver
-69-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:43:9-49:20
-70            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-70-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:44:13-85
-71            android:exported="true" >
-71-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:45:13-36
-72            <intent-filter>
-72-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:46:13-48:29
-73                <action android:name="com.android.vending.INSTALL_REFERRER" />
-73-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:47:17-79
-73-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:47:25-76
-74            </intent-filter>
-75        </receiver>
-76
-77        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-77-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:51:9-92
-77-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:51:18-89
-78
-79        <provider
-79-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-80            android:name="androidx.startup.InitializationProvider"
-80-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-81            android:authorities="com.example.desfiresdm.androidx-startup"
-81-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-82            android:exported="false" >
-82-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-83            <meta-data
-83-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-84                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-84-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-85                android:value="androidx.startup" />
-85-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
-86            <meta-data
-86-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-87                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-87-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
-88                android:value="androidx.startup" />
-88-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-89        </provider>
-90    </application>
-91
-92</manifest>
+48            <meta-data
+48-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:29:13-31:59
+49                android:name="android.nfc.action.TECH_DISCOVERED"
+49-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:30:17-66
+50                android:resource="@xml/nfc_tech_filter" />
+50-->/workspaces/ev3_tools/DesfireSDM/app/src/main/AndroidManifest.xml:31:17-56
+51        </activity>
+52
+53        <receiver
+53-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:23:9-31:20
+54            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+54-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:24:13-78
+55            android:enabled="true"
+55-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:25:13-35
+56            android:exported="true" >
+56-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:26:13-36
+57            <intent-filter>
+57-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:28:13-30:29
+58                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+58-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:29:17-94
+58-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:29:25-91
+59            </intent-filter>
+60        </receiver>
+61
+62        <service
+62-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:33:9-37:48
+63            android:name="com.google.android.gms.analytics.AnalyticsService"
+63-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:34:13-77
+64            android:enabled="true"
+64-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:35:13-35
+65            android:exported="false" />
+65-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:36:13-37
+66        <!--
+67             Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
+68             installation campaign reporting
+69        -->
+70        <receiver
+70-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:43:9-49:20
+71            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+71-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:44:13-85
+72            android:exported="true" >
+72-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:45:13-36
+73            <intent-filter>
+73-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:46:13-48:29
+74                <action android:name="com.android.vending.INSTALL_REFERRER" />
+74-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:47:17-79
+74-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:47:25-76
+75            </intent-filter>
+76        </receiver>
+77
+78        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+78-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:51:9-92
+78-->[NxpNfcAndroidLib-release-protected.aar] /home/codespace/.gradle/caches/transforms-3/e0a5bb4d94540d1a4933a9aaca03a4e1/transformed/jetified-NxpNfcAndroidLib-release-protected/AndroidManifest.xml:51:18-89
+79
+80        <provider
+80-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+81            android:name="androidx.startup.InitializationProvider"
+81-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+82            android:authorities="com.example.desfiresdm.androidx-startup"
+82-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+83            android:exported="false" >
+83-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+84            <meta-data
+84-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+85                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+85-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+86                android:value="androidx.startup" />
+86-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/transforms-3/753d68b603c3b86b91bece425f583a7f/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+87            <meta-data
+87-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+88                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+88-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+89                android:value="androidx.startup" />
+89-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/codespace/.gradle/caches/transforms-3/acd8ea5259d7a4ab32310ca5087ac5c7/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+90        </provider>
+91    </application>
+92
+93</manifest>
