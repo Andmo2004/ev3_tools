@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity() {
             uiLog("archivos existentes: ${existingFiles.map { it.toInt() }}")
             if (!existingFiles.any { it.toInt() == NDEF_FILE_NO }) {
                 ev3.createFile(NDEF_FILE_NO,
-                    DESFireFile.StdDataFileSettings(
+                    DESFireEV3File.StdEV3DataFileSettings(
                         IDESFireEV1.CommunicationType.Plain,
                         0x00.toByte(),  // commMode
                         0xEE.toByte(),  // RW=free(E), Change=free(E)
