@@ -1,3 +1,0 @@
--keep class com.nxp.** { *; }
--dontwarn com.nxp.**
--keep class com.madgag.** { *; }

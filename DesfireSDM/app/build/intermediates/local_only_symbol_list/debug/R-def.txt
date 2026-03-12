@@ -1,0 +1,20 @@
+R_DEF: Internal format may change without notice
+local
+drawable edittext_bg
+drawable status_dot
+id btnRead
+id btnWrite
+id cbCtrMirror
+id cbEncUid
+id cbSdmMac
+id cbUidMirror
+id etUrl
+id scrollLog
+id statusDot
+id tvLog
+id tvStatus
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Theme.DesfireSDM

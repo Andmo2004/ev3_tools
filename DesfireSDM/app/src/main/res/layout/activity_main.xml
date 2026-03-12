@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#121212">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESFire EV3 SDM Writer"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MIFARE DESFire EV3 • NDEF + SDM"
+        android:textColor="#BB86FC"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- URL Input -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="URL para escribir en el tag:"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingBottom="4dp" />
+
+    <EditText
+        android:id="@+id/etUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="https://example.com/"
+        android:inputType="textUri"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888"
+        android:background="@drawable/edittext_bg"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:layout_marginBottom="12dp" />
+
+    <!-- SDM Options -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Opciones SDM:"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+
+        <CheckBox
+            android:id="@+id/cbUidMirror"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="UID Mirror"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:buttonTint="#BB86FC" />
+
+        <CheckBox
+            android:id="@+id/cbCtrMirror"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Counter Mirror"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:buttonTint="#BB86FC" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <CheckBox
+            android:id="@+id/cbEncUid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Encrypted UID"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:buttonTint="#BB86FC" />
+
+        <CheckBox
+            android:id="@+id/cbSdmMac"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SDM MAC"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:buttonTint="#BB86FC" />
+
+    </LinearLayout>
+
+    <!-- Action Buttons -->
+    <Button
+        android:id="@+id/btnWrite"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="ESCRIBIR NDEF + SDM EN TAG"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:backgroundTint="#BB86FC"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnRead"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="LEER TAG"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:backgroundTint="#03DAC6"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Status card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <View
+            android:id="@+id/statusDot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/status_dot"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Acerque el tag NFC al dispositivo"
+            android:textColor="#AAAAAA"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Log scroll view -->
+    <ScrollView
+        android:id="@+id/scrollLog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#1E1E1E"
+        android:padding="1dp">
+
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:text="[Sistema listo]\n" />
+    </ScrollView>
+
+</LinearLayout>
