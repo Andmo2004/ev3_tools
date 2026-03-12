@@ -1,47 +1,47 @@
 [
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/drawable_status_dot.xml.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/drawable/status_dot.xml"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-hdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/layout_activity_main.xml.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/layout/activity_main.xml"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-hdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/drawable_edittext_bg.xml.flat",
+        "source": "com.example.desfiresdm.app-main-31:/drawable/edittext_bg.xml"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-mdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-hdpi/ic_launcher.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-mdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/drawable_edittext_bg.xml.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/drawable/edittext_bg.xml"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/drawable_status_dot.xml.flat",
+        "source": "com.example.desfiresdm.app-main-31:/drawable/status_dot.xml"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/layout_activity_main.xml.flat",
+        "source": "com.example.desfiresdm.app-main-31:/layout/activity_main.xml"
     },
     {
-        "merged": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-merged_res-29:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/home/codespace/.gradle/daemon/8.0/com.example.desfiresdm.app-main-31:/mipmap-mdpi/ic_launcher.png"
+        "merged": "com.example.desfiresdm.app-merged_res-29:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.example.desfiresdm.app-main-31:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
         "merged": "com.example.desfiresdm.app-merged_res-29:/xml_nfc_tech_filter.xml.flat",
