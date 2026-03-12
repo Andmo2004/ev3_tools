@@ -15,6 +15,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
         android:name="com.example.desfiresdm.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
