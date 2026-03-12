@@ -201,7 +201,11 @@ class MainActivity : AppCompatActivity() {
             val urlTemplate = buildSdmUrl(etUrl.text.toString().trim())
             val ndefMsg = buildNdefMessage(urlTemplate)
             val ndefBytes = ndefMsg.toByteArray()
-            val fileSize = maxOf(256, ndefBytes.size + 32)
+            val fileSize = run {
+                val needed = ndefBytes.size + 2  // +2 for NLEN prefix
+                val padded = ((needed + 31) / 32) * 32  // round up to multiple of 32
+                maxOf(256, padded)
+            }
 
             val existingFiles = try { ev3.getFileIDs() } catch (e: Exception) { ByteArray(0) }
             if (!existingFiles.any { it.toInt() == NDEF_FILE_NO }) {
