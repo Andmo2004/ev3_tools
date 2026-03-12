@@ -185,6 +185,23 @@ class MainActivity : AppCompatActivity() {
 
             // 4. Select app + auth
             uiLog("[4/6] Seleccionando app NDEF...")
+            // Borrar app si ya existe para empezar limpio
+            try {
+                ev3.selectApplication(0)
+                ev3.authenticate(0, IDESFireEV1.AuthType.Native, KeyType.THREEDES, buildDesKeyData(DEFAULT_DES_KEY))
+                ev3.deleteApplication(NDEF_APP_AID)
+                uiLog("App anterior borrada")
+                // Recrear app
+                ev3.createApplication(NDEF_APP_AID,
+                    EV1ApplicationKeySettings.Builder()
+                        .setAppKeySettingsChangeable(true)
+                        .setAppMasterKeyChangeable(true)
+                        .setAuthenticationRequiredForFileManagement(false)
+                        .setAuthenticationRequiredForDirectoryConfigurationData(false)
+                        .setKeyTypeOfApplicationKeys(KeyType.AES128)
+                        .build())
+                uiLog("App recreada")
+            } catch (e: Exception) { uiLog("deleteApp: ${e.message}") }
             ev3.selectApplication(NDEF_APP_AID)
             try {
                 ev3.authenticateEV2First(0, buildAesKeyData(DEFAULT_AES_KEY), null)
@@ -207,7 +224,9 @@ class MainActivity : AppCompatActivity() {
                 maxOf(256, padded)
             }
 
+            uiLog("fileSize calculado: $fileSize bytes")
             val existingFiles = try { ev3.getFileIDs() } catch (e: Exception) { ByteArray(0) }
+            uiLog("archivos existentes: ${existingFiles.map { it.toInt() }}")
             if (!existingFiles.any { it.toInt() == NDEF_FILE_NO }) {
                 ev3.createFile(NDEF_FILE_NO,
                     DESFireFile.StdDataFileSettings(
