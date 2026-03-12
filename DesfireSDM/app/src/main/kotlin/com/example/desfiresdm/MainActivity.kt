@@ -212,7 +212,11 @@ class MainActivity : AppCompatActivity() {
                 ev3.createFile(NDEF_FILE_NO,
                     DESFireFile.StdDataFileSettings(
                         IDESFireEV1.CommunicationType.Plain,
-                        0x00.toByte(), 0x00.toByte(), 0xEE.toByte(), 0x00.toByte(), fileSize))
+                        0x00.toByte(),  // commMode
+                        0xEE.toByte(),  // RW=free(E), Change=free(E)
+                        0xEE.toByte(),  // Read=free(E), Write=free(E)
+                        0x00.toByte(),  // RFU
+                        fileSize))
                 uiLog("✓ Archivo creado ($fileSize bytes)")
             } else { uiLog("ℹ️ Archivo ya existe") }
 
